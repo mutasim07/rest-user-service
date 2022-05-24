@@ -1,10 +1,10 @@
 package com.perseus.urs.userrestservice.service;
 
-import com.perseus.urs.userrestservice.model.User;
+import com.perseus.urs.userrestservice.domain.UserEntity;
 
 import java.util.List;
 
 public interface IUserService
 {
-	List<User> findByName(String name);
+	List<UserEntity> findByName(String name);
 }
