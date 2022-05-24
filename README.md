@@ -4,4 +4,5 @@ This is a rest-service which is able to:
 -Return user by id
 -Return user by name
 -Add additional mail/phone data 
--Update existing mail/phone data, Delete user
+-Update existing mail/phone data, 
+-Delete user
