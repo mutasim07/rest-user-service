@@ -3,6 +3,7 @@ package com.perseus.urs.userrestservice.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,4 +23,12 @@ public class UserEntity
 
 	@Column(name = "last_name")
 	private String lastName;
+
+	@OneToMany(targetEntity = UserEmailEntity.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+	private List<UserEmailEntity> emails;
+
+	@OneToMany(targetEntity = UserPhoneEntity.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+	private List<UserPhoneEntity> phones;
 }
