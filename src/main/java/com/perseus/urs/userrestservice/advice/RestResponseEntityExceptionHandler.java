@@ -1,11 +1,8 @@
 package com.perseus.urs.userrestservice.advice;
 
-import com.perseus.urs.userrestservice.exception.BaseException;
 import com.perseus.urs.userrestservice.exception.NotFoundException;
 import com.perseus.urs.userrestservice.model.response.CommonResponseModel;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 @Slf4j
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler
@@ -25,6 +21,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	{
 		addLogs(ex);
 		return handleNotFoundException(ex);
+	}
+
+	@ExceptionHandler(value = { RuntimeException.class })
+	public ResponseEntity<Object> handleConflict(final RuntimeException ex, final WebRequest request)
+	{
+		String genericError = "An error occurred, please contact administrator";
+		addLogs(ex);
+		return createResponseModel(HttpStatus.INTERNAL_SERVER_ERROR.value(), genericError, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	public ResponseEntity<Object> handleNotFoundException(final NotFoundException ex)
