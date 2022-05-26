@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Override
-	public UserResponseModel addUser(UserModel userModel)
+	public UserResponseModel addOrUpdateUser(UserModel userModel)
 	{
 		UserEntity userEntity = userTransformer.toEntity(userModel);
 		UserEntity savedUserEntity = userRepository.save(userEntity);
