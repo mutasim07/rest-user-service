@@ -17,4 +17,14 @@ public class NotFoundException extends BaseException {
 	public NotFoundException(final String message) {
 		super(message);
 	}
+
+	/**
+	 * Instantiates a new missing data exception.
+	 *
+	 * @param message the message
+	 * @param id      the id of entity to be found
+	 */
+	public NotFoundException(final String message, Long id) {
+		super(message, id);
+	}
 }

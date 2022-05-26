@@ -19,4 +19,24 @@ public class BaseException extends RuntimeException {
 	public BaseException(final String message) {
 		super(message);
 	}
+
+	/**
+	 * Instantiates a new missing data exception.
+	 *
+	 * @param message the message
+	 * @param id      the id of entity to be found
+	 */
+	public BaseException(final String message, Long id) {
+		super(message);
+	}
+
+	/**
+	 * Instantiates a new missing data exception.
+	 *
+	 * @param message the message
+	 * @param searchProperty      the id of entity to be found
+	 */
+	public BaseException(final String message, String searchProperty) {
+		super(message);
+	}
 }

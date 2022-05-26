@@ -15,8 +15,8 @@ public class UserController
 	@Autowired
 	private UserService userService;
 	@PostMapping("/user")
-	public ResponseEntity<UserResponseModel> addOrUpdateUser(@RequestBody UserModel body) {
-		UserResponseModel userResponseModel = userService.addOrUpdateUser(body);
+	public ResponseEntity<UserResponseModel> addUser(@RequestBody UserModel body) {
+		UserResponseModel userResponseModel = userService.addUser(body);
 		userResponseModel.setResultCode(0);
 		userResponseModel.setResultDescription("User added successfully");
 		return ResponseEntity.ok(userResponseModel);

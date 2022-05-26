@@ -1,10 +1,15 @@
 package com.perseus.urs.userrestservice.service.implementation;
 
+import com.perseus.urs.userrestservice.domain.UserEmailEntity;
 import com.perseus.urs.userrestservice.domain.UserEntity;
+import com.perseus.urs.userrestservice.domain.UserPhoneEntity;
+import com.perseus.urs.userrestservice.exception.BadDataException;
 import com.perseus.urs.userrestservice.exception.NotFoundException;
 import com.perseus.urs.userrestservice.model.UserModel;
 import com.perseus.urs.userrestservice.model.response.UserResponseModel;
 import com.perseus.urs.userrestservice.model.response.UsersResponseModel;
+import com.perseus.urs.userrestservice.repository.UserEmailRepository;
+import com.perseus.urs.userrestservice.repository.UserPhoneRepository;
 import com.perseus.urs.userrestservice.repository.UserRepository;
 import com.perseus.urs.userrestservice.service.UserService;
 import com.perseus.urs.userrestservice.transformer.Transformer;
@@ -19,6 +24,10 @@ public class UserServiceImpl implements UserService
 {
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private UserEmailRepository userEmailRepository;
+	@Autowired
+	private UserPhoneRepository userPhoneRepository;
 	@Autowired
 	private Transformer<UserEntity, UserModel> userTransformer;
 
@@ -42,9 +51,16 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Override
-	public UserResponseModel addOrUpdateUser(UserModel userModel)
+	public UserResponseModel addUser(UserModel userModel)
 	{
+		userModel.setUserId(0l);
+		if (userModel.getEmails() != null)
+			userModel.getEmails().forEach(email -> email.setEmailId(0L));
+		if (userModel.getPhones() != null)
+			userModel.getPhones().forEach(phone -> phone.setPhoneId(0L));
+
 		UserEntity userEntity = userTransformer.toEntity(userModel);
+		validateUser(userEntity);
 		UserEntity savedUserEntity = userRepository.save(userEntity);
 		return toUserResponseModel(savedUserEntity);
 	}
@@ -63,5 +79,66 @@ public class UserServiceImpl implements UserService
 		return UsersResponseModel.builder()
 				.users(userModels)
 				.build();
+	}
+
+	private void validateUser(UserEntity userEntity)
+	{
+		validateUserId(userEntity);
+		validateUserEmailUnique(userEntity);
+		validateUserPhoneUnique(userEntity);
+	}
+
+	private void validateUserId(UserEntity userEntity)
+	{
+		if (userEntity.getUserId() > 0 && !userRepository.existsByUserId(userEntity.getUserId()))
+			throw new NotFoundException("User id not found", userEntity.getUserId());
+	}
+
+	private void validateUserEmailUnique(UserEntity user)
+	{
+		if (user.getEmails() != null)
+		{
+			user.getEmails().forEach(x -> {
+				if (!isEmailUnique(x))
+					throw new BadDataException("Email already exists", x.getEmail());
+			});
+		}
+	}
+
+	private void validateUserPhoneUnique(UserEntity user)
+	{
+		if (user.getPhones() != null)
+		{
+			user.getPhones().forEach(x -> {
+				if (!isPhoneUnique(x))
+					throw new BadDataException("Phone already exists", x.getPhone());
+			});
+		}
+	}
+
+	private boolean isPhoneUnique(UserPhoneEntity userPhoneEntity)
+	{
+		UserPhoneEntity entity = userPhoneRepository.findByPhone(userPhoneEntity.getPhone());
+		if (entity == null)
+			return true;
+		if (entity.getUser().getUserId() == userPhoneEntity.getUser().getUserId())
+		{
+			userPhoneEntity.setPhoneId(entity.getPhoneId());
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isEmailUnique(UserEmailEntity userEmailEntity)
+	{
+		UserEmailEntity entity = userEmailRepository.findByEmail(userEmailEntity.getEmail());
+		if (entity == null)
+			return true;
+		if (entity.getUser().getUserId() == userEmailEntity.getUser().getUserId())
+		{
+			userEmailEntity.setEmailId(entity.getEmailId());
+			return true;
+		}
+		return false;
 	}
 }

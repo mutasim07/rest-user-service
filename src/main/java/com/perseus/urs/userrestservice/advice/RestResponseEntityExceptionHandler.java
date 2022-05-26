@@ -1,5 +1,6 @@
 package com.perseus.urs.userrestservice.advice;
 
+import com.perseus.urs.userrestservice.exception.BadDataException;
 import com.perseus.urs.userrestservice.exception.NotFoundException;
 import com.perseus.urs.userrestservice.model.response.CommonResponseModel;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		String genericError = "An error occurred, please contact administrator";
 		addLogs(ex);
 		return createResponseModel(HttpStatus.INTERNAL_SERVER_ERROR.value(), genericError, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(value = { BadDataException.class })
+	public ResponseEntity<Object> handleConflict(final BadDataException ex, final WebRequest request)
+	{
+		addLogs(ex);
+
+		return handleBadDataException(ex);
+	}
+
+	public ResponseEntity<Object> handleBadDataException(final BadDataException ex)
+	{
+		return createResponseModel(400, ex.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 
 	public ResponseEntity<Object> handleNotFoundException(final NotFoundException ex)

@@ -9,5 +9,5 @@ public interface UserService
 {
 	UserResponseModel findByUserId(long userId);
 	UsersResponseModel findByFirstNameAndLastName(String firstName, String lastName);
-	UserResponseModel addOrUpdateUser(UserModel userModel);
+	UserResponseModel addUser(UserModel userModel);
 }
