@@ -11,16 +11,18 @@ public class UserTransformer implements Transformer<UserEntity, UserModel>
 	public UserEntity toEntity(UserModel userModel) {
 
 		return UserEntity.builder()
-				.id(userModel.getId())
-				.name(userModel.getName())
+				.userId(userModel.getUserId())
+				.firstName(userModel.getFirstName())
+				.lastName(userModel.getLastName())
 				.build();
 	}
 
 	@Override
 	public UserModel toModel(UserEntity userEntity) {
 		return UserModel.builder()
-				.id(userEntity.getId())
-				.name(userEntity.getName())
+				.userId(userEntity.getUserId())
+				.firstName(userEntity.getFirstName())
+				.lastName(userEntity.getLastName())
 				.build();
 	}
 }

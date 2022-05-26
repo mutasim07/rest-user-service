@@ -7,7 +7,7 @@ import com.perseus.urs.userrestservice.model.response.UsersResponseModel;
 
 public interface UserService
 {
-	UserResponseModel findById(long id);
-	UsersResponseModel findByName(String name);
+	UserResponseModel findByUserId(long userId);
+	UsersResponseModel findByFirstNameAndLastName(String firstName, String lastName);
 	UserResponseModel addUser(UserModel userModel);
 }

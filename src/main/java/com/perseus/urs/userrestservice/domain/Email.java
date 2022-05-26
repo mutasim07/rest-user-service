@@ -9,17 +9,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
-@Table(name = "user")
-public class UserEntity
+@Table(name = "email")
+public class Email
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "user_id")
-	private long userId;
-
-	@Column(name = "first_name")
-	private String firstName;
-
-	@Column(name = "last_name")
-	private String lastName;
+	@Column(name = "email_id")
+	private long emailId;
+	@Column(name = "email")
+	private String email;
 }

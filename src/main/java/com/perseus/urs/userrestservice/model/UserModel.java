@@ -8,8 +8,10 @@ import lombok.Data;
 @Builder
 public class UserModel
 {
-	@JsonProperty("id")
-	private long id;
-	@JsonProperty("name")
-	private String name;
+	@JsonProperty("userId")
+	private long userId;
+	@JsonProperty("firstName")
+	private String firstName;
+	@JsonProperty("lastName")
+	private String lastName;
 }

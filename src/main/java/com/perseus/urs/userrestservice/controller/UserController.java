@@ -21,19 +21,19 @@ public class UserController
 		return ResponseEntity.ok(userResponseModel);
 	}
 
-	@GetMapping("/user/name/{name}")
-	public ResponseEntity<UsersResponseModel> getUsersByName(@PathVariable String name) {
-		UsersResponseModel usersResponseModel = userService.findByName(name);
+	@GetMapping("/user/name")
+	public ResponseEntity<UsersResponseModel> getUsersByName(@RequestParam String firstName, @RequestParam String lastName) {
+		UsersResponseModel usersResponseModel = userService.findByFirstNameAndLastName(firstName, lastName);
 		usersResponseModel.setResultCode(0);
-		usersResponseModel.setResultDescription("User fetched successfully");
+		usersResponseModel.setResultDescription("Users fetched successfully");
 		return ResponseEntity.ok(usersResponseModel);
 	}
 
-	@GetMapping("/user/{id}")
-	public ResponseEntity<UserResponseModel> getUsersById(@PathVariable long id) {
-		UserResponseModel userResponseModel = userService.findById(id);
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<UserResponseModel> getUsersById(@PathVariable long userId) {
+		UserResponseModel userResponseModel = userService.findByUserId(userId);
 		userResponseModel.setResultCode(0);
-		userResponseModel.setResultDescription("User added successfully");
+		userResponseModel.setResultDescription("User fetched successfully");
 		return ResponseEntity.ok(userResponseModel);
 	}
 }

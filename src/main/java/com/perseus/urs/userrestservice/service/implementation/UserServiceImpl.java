@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService
 	private Transformer<UserEntity, UserModel> userTransformer;
 
 	@Override
-	public UserResponseModel findById(long id)
+	public UserResponseModel findByUserId(long userId)
 	{
-		Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+		Optional<UserEntity> userEntityOptional = userRepository.findByUserId(userId);
 		if(userEntityOptional.isPresent())
 		{
 			UserEntity savedUserEntity = userRepository.save(userEntityOptional.get());
@@ -35,9 +35,9 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Override
-	public UsersResponseModel findByName(String name)
+	public UsersResponseModel findByFirstNameAndLastName(String firstName, String lastName)
 	{
-		List<UserEntity> userEntities = userRepository.findByName(name);
+		List<UserEntity> userEntities = userRepository.findByFirstNameAndLastName(firstName, lastName);
 		return toUsersResponseModel(userEntities);
 	}
 
