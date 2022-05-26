@@ -1,6 +1,7 @@
 package com.perseus.urs.userrestservice.service.implementation;
 
 import com.perseus.urs.userrestservice.domain.UserEntity;
+import com.perseus.urs.userrestservice.exception.NotFoundException;
 import com.perseus.urs.userrestservice.model.UserModel;
 import com.perseus.urs.userrestservice.model.response.UserResponseModel;
 import com.perseus.urs.userrestservice.model.response.UsersResponseModel;
@@ -30,8 +31,7 @@ public class UserServiceImpl implements UserService
 			UserEntity savedUserEntity = userRepository.save(userEntityOptional.get());
 			return toUserResponseModel(savedUserEntity);
 		}
-		//throw not found exception
-		return null;
+		throw new NotFoundException("User Id not found");
 	}
 
 	@Override
