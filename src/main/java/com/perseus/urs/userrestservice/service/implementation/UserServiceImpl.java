@@ -75,6 +75,15 @@ public class UserServiceImpl implements UserService
 		return toUserResponseModel(savedUserEntity);
 	}
 
+	@Override
+	public void deleteUser(long userId)
+	{
+		if(userRepository.existsByUserId(userId))
+			userRepository.deleteById(userId);
+		else
+			throw new NotFoundException("User id not found", userId);
+	}
+
 	private UserResponseModel toUserResponseModel(UserEntity userEntity)
 	{
 		UserModel userModel = userTransformer.toModel(userEntity);

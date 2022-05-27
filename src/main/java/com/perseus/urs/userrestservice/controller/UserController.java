@@ -1,6 +1,7 @@
 package com.perseus.urs.userrestservice.controller;
 
 import com.perseus.urs.userrestservice.model.UserModel;
+import com.perseus.urs.userrestservice.model.response.CommonResponseModel;
 import com.perseus.urs.userrestservice.model.response.UserResponseModel;
 import com.perseus.urs.userrestservice.model.response.UsersResponseModel;
 import com.perseus.urs.userrestservice.service.UserService;
@@ -44,5 +45,11 @@ public class UserController
 		userResponseModel.setResultCode(0);
 		userResponseModel.setResultDescription("User fetched successfully");
 		return ResponseEntity.ok(userResponseModel);
+	}
+
+	@DeleteMapping("/user/{userId}")
+	public ResponseEntity<CommonResponseModel> deleteUserById(@PathVariable long userId) {
+		userService.deleteUser(userId);
+		return ResponseEntity.ok(new CommonResponseModel(0,"User deleted successfully"));
 	}
 }

@@ -11,4 +11,5 @@ public interface UserService
 	UsersResponseModel findByFirstNameAndLastName(String firstName, String lastName);
 	UserResponseModel addUser(UserModel userModel);
 	UserResponseModel updateUser(UserModel userModel);
+	void deleteUser(long userId);
 }
