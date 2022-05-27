@@ -1,9 +1,9 @@
 package com.perseus.urs.userrestservice.controller;
 
+import com.perseus.urs.userrestservice.model.UserEmailModel;
 import com.perseus.urs.userrestservice.model.UserModel;
-import com.perseus.urs.userrestservice.model.response.CommonResponseModel;
-import com.perseus.urs.userrestservice.model.response.UserResponseModel;
-import com.perseus.urs.userrestservice.model.response.UsersResponseModel;
+import com.perseus.urs.userrestservice.model.UserPhoneModel;
+import com.perseus.urs.userrestservice.model.response.*;
 import com.perseus.urs.userrestservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +22,39 @@ public class UserController
 		userResponseModel.setResultDescription("User added successfully");
 		return ResponseEntity.ok(userResponseModel);
 	}
+
+	@PostMapping("/user/{userId}/email")
+	public ResponseEntity<UserEmailResponseModel> addUserEmail(@PathVariable long userId, @RequestBody UserEmailModel body) {
+		UserEmailResponseModel userEmailResponseModel = userService.addUserEmail(userId, body);
+		userEmailResponseModel.setResultCode(0);
+		userEmailResponseModel.setResultDescription("User email added successfully");
+		return ResponseEntity.ok(userEmailResponseModel);
+	}
+
+	@PutMapping("/user/{userId}/email")
+	public ResponseEntity<UserEmailResponseModel> updateUserEmail(@PathVariable long userId, @RequestBody UserEmailModel body) {
+		UserEmailResponseModel userEmailResponseModel = userService.updateUserEmail(userId, body);
+		userEmailResponseModel.setResultCode(0);
+		userEmailResponseModel.setResultDescription("User email added successfully");
+		return ResponseEntity.ok(userEmailResponseModel);
+	}
+
+	@PostMapping("/user/{userId}/phone")
+	public ResponseEntity<UserPhoneResponseModel> addUserPhone(@PathVariable long userId, @RequestBody UserPhoneModel body) {
+		UserPhoneResponseModel userPhoneResponseModel = userService.addUserPhone(userId, body);
+		userPhoneResponseModel.setResultCode(0);
+		userPhoneResponseModel.setResultDescription("User phone added successfully");
+		return ResponseEntity.ok(userPhoneResponseModel);
+	}
+
+	@PutMapping("/user/{userId}/phone")
+	public ResponseEntity<UserPhoneResponseModel> updateUserPhone(@PathVariable long userId, @RequestBody UserPhoneModel body) {
+		UserPhoneResponseModel userPhoneResponseModel = userService.updateUserPhone(userId, body);
+		userPhoneResponseModel.setResultCode(0);
+		userPhoneResponseModel.setResultDescription("User phone added successfully");
+		return ResponseEntity.ok(userPhoneResponseModel);
+	}
+
 
 	@PutMapping("/user")
 	public ResponseEntity<UserResponseModel> update(@RequestBody UserModel body) {

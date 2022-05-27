@@ -35,4 +35,12 @@ public class UserEntity implements Serializable
 	@OneToMany(targetEntity = UserPhoneEntity.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
 	private List<UserPhoneEntity> phones;
+
+	public boolean hasEmail(UserEmailEntity userEmailEntity) {
+		return emails != null && emails.stream().anyMatch(email -> email.getEmailId() == userEmailEntity.getEmailId());
+	}
+
+	public boolean hasPhone(UserPhoneEntity userPhoneEntity) {
+		return phones != null && phones.stream().anyMatch(phone -> phone.getPhoneId() == userPhoneEntity.getPhoneId());
+	}
 }
