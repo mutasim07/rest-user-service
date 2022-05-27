@@ -42,12 +42,18 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
 	public ResponseEntity<Object> handleBadDataException(final BadDataException ex)
 	{
-		return createResponseModel(400, ex.getMessage(), HttpStatus.BAD_REQUEST);
+		if (ex.hasValue())
+			return createResponseModel(404, ex.getMessage(), ex.getSearchProperty(), HttpStatus.BAD_REQUEST);
+		else
+			return createResponseModel(400, ex.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 
 	public ResponseEntity<Object> handleNotFoundException(final NotFoundException ex)
 	{
-		return createResponseModel(404, ex.getMessage(), HttpStatus.NOT_FOUND);
+		if (ex.hasValue())
+			return createResponseModel(404, ex.getMessage(), ex.getSearchProperty(), HttpStatus.NOT_FOUND);
+		else
+			return createResponseModel(404, ex.getMessage(), HttpStatus.NOT_FOUND);
 	}
 
 	private void addLogs(Exception ex)
@@ -59,5 +65,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	private ResponseEntity<Object> createResponseModel(int resultCode, String resultDescription, HttpStatus status)
 	{
 		return new ResponseEntity<>(new CommonResponseModel(resultCode, resultDescription), new HttpHeaders(), status);
+	}
+
+	public static ResponseEntity<Object> createResponseModel(
+			int resultCode,
+			String resultDescription,
+			String searchProperty,
+			HttpStatus status)
+	{
+		return new ResponseEntity<>(new CommonResponseModel(resultCode, resultDescription + " " + searchProperty), new HttpHeaders(), status);
 	}
 }

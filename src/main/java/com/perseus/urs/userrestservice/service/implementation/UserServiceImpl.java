@@ -65,6 +65,16 @@ public class UserServiceImpl implements UserService
 		return toUserResponseModel(savedUserEntity);
 	}
 
+	@Override
+	public UserResponseModel updateUser(UserModel userModel)
+	{
+		UserEntity userEntity = userTransformer.toEntity(userModel);
+		validateMandatoryUserId(userEntity);
+		validateUser(userEntity);
+		UserEntity savedUserEntity = userRepository.save(userEntity);
+		return toUserResponseModel(savedUserEntity);
+	}
+
 	private UserResponseModel toUserResponseModel(UserEntity userEntity)
 	{
 		UserModel userModel = userTransformer.toModel(userEntity);
@@ -92,6 +102,12 @@ public class UserServiceImpl implements UserService
 	{
 		if (userEntity.getUserId() > 0 && !userRepository.existsByUserId(userEntity.getUserId()))
 			throw new NotFoundException("User id not found", userEntity.getUserId());
+	}
+
+	private void validateMandatoryUserId(UserEntity userEntity)
+	{
+		if (userEntity.getUserId() == 0)
+			throw new BadDataException("User id must be provided");
 	}
 
 	private void validateUserEmailUnique(UserEntity user)

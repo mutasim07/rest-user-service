@@ -22,6 +22,14 @@ public class UserController
 		return ResponseEntity.ok(userResponseModel);
 	}
 
+	@PutMapping("/user")
+	public ResponseEntity<UserResponseModel> update(@RequestBody UserModel body) {
+		UserResponseModel userResponseModel = userService.updateUser(body);
+		userResponseModel.setResultCode(0);
+		userResponseModel.setResultDescription("User updated successfully");
+		return ResponseEntity.ok(userResponseModel);
+	}
+
 	@GetMapping("/user/name")
 	public ResponseEntity<UsersResponseModel> getUsersByName(@RequestParam String firstName, @RequestParam String lastName) {
 		UsersResponseModel usersResponseModel = userService.findByFirstNameAndLastName(firstName, lastName);
