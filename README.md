@@ -5,3 +5,5 @@ This is a rest-service which is able to:
 -Return user by name
 -Add additional mail/phone data 
 -Update existing mail/phone data, Delete user
+
+swagger url http://localhost:8080/swagger-ui/index.html#/
