@@ -54,7 +54,8 @@ http://localhost:8080/swagger-ui/index.html
 ## Docker
 
 This service is dockerized. Dockerfile is placed at the root folder of this service.
-Here are the commands to create docker image and then run this service in a docker container
+Here are the commands to create docker image and then run this service in a docker container.
+
 Inside the root folder, run the following commands:
 
 $mvn clean package
