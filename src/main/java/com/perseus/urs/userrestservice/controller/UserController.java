@@ -35,7 +35,7 @@ public class UserController
 	public ResponseEntity<UserEmailResponseModel> updateUserEmail(@PathVariable long userId, @RequestBody UserEmailModel body) {
 		UserEmailResponseModel userEmailResponseModel = userService.updateUserEmail(userId, body);
 		userEmailResponseModel.setResultCode(0);
-		userEmailResponseModel.setResultDescription("User email added successfully");
+		userEmailResponseModel.setResultDescription("User email updated successfully");
 		return ResponseEntity.ok(userEmailResponseModel);
 	}
 
@@ -51,7 +51,7 @@ public class UserController
 	public ResponseEntity<UserPhoneResponseModel> updateUserPhone(@PathVariable long userId, @RequestBody UserPhoneModel body) {
 		UserPhoneResponseModel userPhoneResponseModel = userService.updateUserPhone(userId, body);
 		userPhoneResponseModel.setResultCode(0);
-		userPhoneResponseModel.setResultDescription("User phone added successfully");
+		userPhoneResponseModel.setResultDescription("User phone updated successfully");
 		return ResponseEntity.ok(userPhoneResponseModel);
 	}
 
