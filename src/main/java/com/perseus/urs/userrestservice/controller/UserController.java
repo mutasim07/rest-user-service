@@ -57,7 +57,7 @@ public class UserController
 
 
 	@PutMapping("/user")
-	public ResponseEntity<UserResponseModel> update(@RequestBody UserModel body) {
+	public ResponseEntity<UserResponseModel> updateUser(@RequestBody UserModel body) {
 		UserResponseModel userResponseModel = userService.updateUser(body);
 		userResponseModel.setResultCode(0);
 		userResponseModel.setResultDescription("User updated successfully");

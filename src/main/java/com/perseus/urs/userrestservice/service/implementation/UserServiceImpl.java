@@ -93,9 +93,9 @@ public class UserServiceImpl implements UserService
 		UserEntity userEntity = getByUserId(userId);
 		userPhoneEntity.setUser(userEntity);
 		if (userEntity.hasPhone(userPhoneEntity))
-			throw new DuplicateKeyException("Email already exists");
+			throw new DuplicateKeyException("Phone already exists");
 		if (userPhoneRepository.findByPhone(userPhoneEntity.getPhone()) != null)
-			throw new BadDataException("Email already exists");
+			throw new BadDataException("Phone already exists");
 		UserPhoneEntity savedUserPhoneEntity = userPhoneRepository.saveAndFlush(userPhoneEntity);
 
 		return toUserPhoneResponseModel(savedUserPhoneEntity);
@@ -138,6 +138,10 @@ public class UserServiceImpl implements UserService
 	{
 		UserEntity userEntity = userTransformer.toEntity(userModel);
 		validateMandatoryUserId(userEntity);
+		if(userEntity.getEmails() != null)
+			validateMandatoryUserEmailIds(userEntity.getEmails());
+		if(userEntity.getPhones() != null)
+			validateMandatoryUserPhoneIds(userEntity.getPhones());
 		validateUser(userEntity);
 		UserEntity savedUserEntity = userRepository.save(userEntity);
 		return toUserResponseModel(savedUserEntity);
@@ -212,6 +216,20 @@ public class UserServiceImpl implements UserService
 	{
 		if (userEntity.getUserId() == 0)
 			throw new BadDataException("User id must be provided");
+	}
+
+	private void validateMandatoryUserEmailIds(List<UserEmailEntity> userEmailEntities)
+	{
+		userEmailEntities.forEach(x -> {
+			validateMandatoryEmailId(x);
+		});
+	}
+
+	private void validateMandatoryUserPhoneIds(List<UserPhoneEntity> userPhoneEntities)
+	{
+		userPhoneEntities.forEach(x -> {
+			validateMandatoryPhoneId(x);
+		});
 	}
 
 	private void validateMandatoryEmailId(UserEmailEntity userEmailEntity)
