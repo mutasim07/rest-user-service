@@ -47,7 +47,20 @@ user_phone (Phone_ID, User_ID, Phone)
 5. Unit tests have been written for service layer using JUnit and mockito.
 
 ## API Interfaces
+
 Run the application and head over to below url for all apis and their details
 http://localhost:8080/swagger-ui/index.html
 
+## Docker
 
+This service is dockerized. Dockerfile is placed at the root folder of this service.
+Here are the commands to create docker image and then run this service in a docker container
+Inside the root folder, run the following commands:
+
+$mvn clean package
+
+$java -jar target/user-rest-service-0.0.1-SNAPSHOT.jar
+
+$docker build --tag=user-rest-service:latest .
+
+$docker run -p8887:8080 user-rest-service:latest
